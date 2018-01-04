@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<!--日期选择器 css-->
+		<link rel="stylesheet" type="text/css" href="css/ym_picker.css"/>
+	</head>
+
+	<body>
+
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">YM_Picker演示</h1>
+		</header>
+
+		<div class="mui-content">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell" id="datePicker">
+					<a class="mui-navigate-right">
+						日期选择
+					</a>
+				</li>
+			</ul>
+		</div>
+
+		<script src="js/mui.min.js"></script>
+		<!--日期选择器 js-->
+		<script src="js/ym-picker.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+
+			// 初始化日期选择器
+			YM.init({
+				outerCanClick: true, // 是否外部可点击,默认不可点击
+				outerClick: function() { // 当且仅当 `outerCanClick` 为 `true`时可用,如果不想处理外部点击事件,只是点击外部时,单纯关闭对话框时,可以不用传递此参数
+					console.log('外部点击了');
+				}
+			}, function(data) {
+					console.log('选择日期为 : '+JSON.stringify(data));
+			});
+			
+			document.getElementById('datePicker').addEventListener('tap', function() {
+				YM.show();
+			});
+		</script>
+	</body>
+
+</html>

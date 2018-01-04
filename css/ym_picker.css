@@ -1,0 +1,68 @@
+/**
+ * 日期选择器
+ * @1.0
+ * By Liaction CHEN.SI
+ * 科大国创手机开发组
+ */
+
+.ym-picker {
+	border: dashed 1px none;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	z-index: 1000;
+	background-color: rgba(0, 0, 0, .5);
+	align-items: center;
+}
+
+.ym-picker-content {
+	background-color: white;
+	margin-left: 10%;
+	margin-right: 10%;
+	flex: 1;
+	border-radius: 10px;
+	padding: 1rem 0;
+}
+
+.ym-picker-header {
+	border-bottom: 1px solid gainsboro;
+	padding: 0 1rem;
+	padding-bottom: 1rem;
+	align-items: center;
+}
+
+.ym-picker-body {
+	padding: 1rem 2rem;
+	color: gainsboro;
+}
+
+.ym-picker-body>div>div {
+	border-bottom: 1px solid orange;
+	flex: 1;
+	text-align: center;
+	padding: 1rem 0;
+}
+.ym-picker-body>div:last-child div{
+	border-bottom: none;
+}
+
+.ym-picker-body>div>div:nth-child(2) {
+	margin-left: .5rem;
+	margin-right: .5rem;
+}
+
+.ym-picker-body>div:nth-child(2) {
+	color: #444444;
+}
+
+.ym-hidden
+{
+    display: none !important;
+}
+.flex-liaciton {
+	display: flex;
+	display: -webkit-flex;
+	display: -box;
+}
