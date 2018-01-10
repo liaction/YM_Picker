@@ -7,7 +7,7 @@
 		<title></title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<!--日期选择器 css-->
-		<link rel="stylesheet" type="text/css" href="css/ym_picker.css"/>
+		<link rel="stylesheet" type="text/css" href="css/ym_picker.css" />
 	</head>
 
 	<body>
@@ -38,10 +38,10 @@
 				outerClick: function() { // 当且仅当 `outerCanClick` 为 `true`时可用,如果不想处理外部点击事件,只是点击外部时,单纯关闭对话框时,可以不用传递此参数
 					console.log('外部点击了');
 				}
-			}, function(data) {
-					console.log('选择日期为 : '+JSON.stringify(data));
+			}, function(isHaveValidData, data) {
+				console.log('是否有有效数据:' + isHaveValidData + ' 数据为 : ' + JSON.stringify(data));
 			});
-			
+
 			document.getElementById('datePicker').addEventListener('tap', function() {
 				YM.show();
 			});
