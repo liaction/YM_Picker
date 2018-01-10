@@ -11,8 +11,6 @@
 //
 
 var YM = (function() {
-	var initWidth = window.document.documentElement.clientWidth;
-	document.getElementsByTagName('html')[0].style.fontSize = initWidth / 32 + 'px';
 	var layout =
 		'<div id="YMPickerContent" class="ym-picker-content">' +
 		'<div class="flex-liaciton ym-picker-header">' +
@@ -84,8 +82,10 @@ var YM = (function() {
 	};
 
 	var base = {
+		isShowing: false,
 		datas: {},
 		close: function() {
+			base.isShowing = false;
 			var picker = document.getElementById('YMPicker');
 			if(!picker) {
 				return;
@@ -96,6 +96,7 @@ var YM = (function() {
 			}
 		},
 		show: function() {
+			base.isShowing = true;
 			var picker = document.getElementById('YMPicker');
 			if(!picker) {
 				return;
@@ -104,7 +105,9 @@ var YM = (function() {
 			var reg = new RegExp('(\\s|^)' + cls + '(\\s|$)');
 			picker.className = picker.className.replace(reg, ' ');
 		},
-		init: function(params,callback) {
+		init: function(params, callback) {
+
+			console.log(typeof(params) + ' - ' + typeof(callback));
 			base.datas = metaDatas;
 			var picker = document.getElementById("YMPicker");
 
@@ -362,7 +365,7 @@ var YM = (function() {
 						break;
 					default: // 2
 						{
-							return ((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0) ? 29 : 28;
+							return((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0) ? 29 : 28;
 						}
 						break;
 				}
@@ -380,9 +383,9 @@ var YM = (function() {
 				var max = getMaxDayOfMonth(metaDatas.resultDate.year, metaDatas.resultDate.month);
 				if(metaDatas.resultDate.year == metaDatas.maxDate.year && metaDatas.resultDate.month == metaDatas.maxDate.month && metaDatas.resultDate.day > metaDatas.maxDate.day) {
 					metaDatas.resultDate.day = metaDatas.maxDate.day;
-				} else if(metaDatas.resultDate.year == metaDatas.minDate.year && metaDatas.resultDate.month == metaDatas.minDate.month && metaDatas.resultDate.day < metaDatas.minDate.day){
+				} else if(metaDatas.resultDate.year == metaDatas.minDate.year && metaDatas.resultDate.month == metaDatas.minDate.month && metaDatas.resultDate.day < metaDatas.minDate.day) {
 					metaDatas.resultDate.day = metaDatas.minDate.day;
-				}else if(max < metaDatas.resultDate.day) {
+				} else if(max < metaDatas.resultDate.day) {
 					metaDatas.resultDate.day = max;
 				}
 			}
@@ -483,26 +486,36 @@ var YM = (function() {
 
 			document.getElementById('YMPicker').addEventListener('tap', function(e) {
 				e.stopPropagation();
-				params && typeof(params)=="object" ? params.outerCanClick === true && params.outerClick && typeof(params.outerClick) == 'function'? params.outerClick() : base.close() : '' ;
+				params && typeof(params) == "object" ? params.outerCanClick === true && params.outerClick && typeof(params.outerClick) == 'function' ? params.outerClick() : (function() {
+					closePicker();
+				})() : '';
 			});
 			document.getElementById('YMPickerContent').addEventListener('tap', function(e) {
 				e.stopPropagation(); //此处留着的目的,是为了防止点击内容区使dialog消失
 			});
 			document.getElementById('YMPickerBtnCancle').addEventListener('tap', function(e) {
 				e.stopPropagation();
-				base.close();
+				params && typeof(params) == "function" && params(metaDatas.resultDate) || callback && typeof(callback) == "function" && callback(false, {});
+				closePicker();
 			});
 			document.getElementById('YMPickerClose').addEventListener('tap', function(e) {
 				e.stopPropagation();
-				base.close();
+				params && typeof(params) == "function" && params(metaDatas.resultDate) || callback && typeof(callback) == "function" && callback(false, {});
+				closePicker();
 			});
 			document.getElementById('YMPickerBtnOK').addEventListener('tap', function(e) {
 				e.stopPropagation();
-				base.close();
-				params && typeof(params)=="function" &&  params(metaDatas.resultDate) || callback && typeof(callback)=="function" &&  callback(metaDatas.resultDate);
+				params && typeof(params) == "function" && params(metaDatas.resultDate) || callback && typeof(callback) == "function" && callback(true, metaDatas.resultDate);
+				closePicker();
 			});
 		}
 	};
+
+	function closePicker() {
+		setTimeout(function() {
+			base.close();
+		}, 100);
+	}
 
 	return base;
 })();
